@@ -1,0 +1,28 @@
+name: Update Discord Category
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # tiap jam sekali (UTC)
+  workflow_dispatch:  # bisa manual juga
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install discord.py
+
+      - name: Run update script
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          CATEGORY_ID: ${{ secrets.CATEGORY_ID }}
+        run: python update_kategori.py
